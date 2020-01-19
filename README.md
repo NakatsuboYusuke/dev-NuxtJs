@@ -171,7 +171,7 @@ export default {
 }
 ```
 
-### API へアクセス
+### axios で API へアクセス
 
 ```
 <template>
@@ -196,4 +196,65 @@ export default {
 
 // => すべてのコンポーネントで $axios に axios が格納される
 // => $axios に対して、$get/$post などのリクエストが送信可能になる
+```
+
+### API のトークンを発行
+
+```
+# Qiita の場合
+https://qiita.com/settings/tokens/new
+
+// => 発行されたトークンを保存しておく
+```
+
+### axios で 認証付きで API にアクセス
+
+```
+# plugins/axios.js
+export default function ({ $axios }) {
+  $axios.onRequest((config) => {
+    if (process.env.QIITA_TOKEN) {
+      // リクエストヘッダーに認証情報を追加
+      config.headers.common['Authorization'] = `Bearer ${process.env.QIITA_TOKEN}`
+    }
+    return config
+  })
+}
+
+# nuxt.config.js
+export default {
+  :<snip>
+  plugins: [
+    '~/plugins/axios.js'
+  ],
+  // 渡したい環境変数がある場合、環境変数を明記する
+  env: {
+    QIITA_TOKEN: process.env.QIITA_TOKEN
+  },
+  /*
+  ** Nuxt.js dev-modules
+  */
+  buildModules: [
+  ],
+  /*
+  ** Nuxt.js modules
+  */
+  modules: [
+    '@nuxtjs/axios'
+  ],
+  axios: {
+
+  },
+  :<snip>
+}
+
+// => direnv をインストール
+$ brew install direnv
+$ export QIITA_TOKEN=取得したトークン > .envrc
+$ echo QIITA_TOKEN
+// => 取得したトークン
+$ yarn dev
+
+※ Bearer 認証にしないとエラーがでた
+参考記事 => https://bit.ly/2G4F6LE
 ```
