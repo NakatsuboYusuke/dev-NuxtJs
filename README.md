@@ -24,6 +24,9 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## Index
 
 - <a href="">プロジェクトを作成</a>
+- <a href="">ホットリロード</a>
+- <a href="">動的なルーティング</a>
+- <a href="">コンテンツの出し分け</a>
 - <a href=""></a>
 
 ## プロジェクトを作成
@@ -32,7 +35,7 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 $ yarn create nuxt-app my-first-nuxt-app
 ```
 
-## 構成
+### 構成
 
 ```
 $ brew install tree
@@ -112,4 +115,85 @@ http://localhost:3000/ にアクセスすると、自動的にコンテンツが
 # http://localhost:3000/users/register
 // => /users/register.vue
 // => _id.vue より優先して表示される
+```
+
+## コンテンツの出し分け
+Nuxt.jsは_(アンダースコア)以降の名前をプロパティとして認識、paramsへ自動的に代入する。
+
+```
+# pages/users/_id.vue
+<template>
+  <div>
+    <p>
+      <!-- /users/_id.vue -->
+      User ID: {{ userId }}
+    </p>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      userId: this.$route.params.id
+    }
+  }
+}
+</script>
+
+# http://localhost:3000/users/_id
+// => User ID: _id
+```
+
+## 外部リソースの取得
+
+### axious-module をインストール
+moduleにパッケージ名の配列を渡すと、自動的に読み込まれる。
+
+```
+$ yarn add @nuxtjs/axios
+```
+
+```
+# nuxt.config.js
+export default {
+  :<snip>
+  /*
+  ** Nuxt.js modules
+  */
+  modules: [
+    '@nuxtjs/axios'
+  ],
+  axios: {
+
+  },
+  :<snip>
+}
+```
+
+### API へアクセス
+
+```
+<template>
+  <div class="container">
+    <!-- -->
+  </div>
+</template>
+
+<script>
+export default {
+  async mounted() {
+    console.log(
+      JSON.stringify(await
+        this.$axios.$get('https://qiita.com/api/v2/items?query=tag:nuxt.js', true, ' ')
+      )
+    )
+  }
+}
+</script>
+
+// => コンソールに結果が出力される
+
+// => すべてのコンポーネントで $axios に axios が格納される
+// => $axios に対して、$get/$post などのリクエストが送信可能になる
 ```

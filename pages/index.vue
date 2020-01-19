@@ -1,10 +1,9 @@
 <template>
   <div class="container">
-    <div>
+    <!-- <div>
       <logo />
       <h1 class="title">
-        <!-- my-first-nuxt-app -->
-        Hello, world
+        my-first-nuxt-app
       </h1>
       <h2 class="subtitle">
         my-first-nuxt-app
@@ -25,7 +24,7 @@
           GitHub
         </a>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -33,8 +32,15 @@
 import Logo from '~/components/Logo.vue'
 
 export default {
-  components: {
-    Logo
+  // components: {
+  //   Logo
+  // }
+  async mounted() {
+    console.log(
+      JSON.stringify(await
+        this.$axios.$get('https://qiita.com/api/v2/items?query=tag:nuxt.js', true, ' ')
+      )
+    )
   }
 }
 </script>
