@@ -28,7 +28,12 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/axios.js'
   ],
+  // 渡したい環境変数がある場合、環境変数を明記する
+  env: {
+    QIITA_TOKEN: process.env.QIITA_TOKEN
+  },
   /*
   ** Nuxt.js dev-modules
   */
@@ -38,7 +43,11 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios'
   ],
+  axios: {
+
+  },
   /*
   ** Build configuration
   */
