@@ -3,7 +3,8 @@
     <div>
       <logo />
       <h1 class="title">
-        my-first-nuxt-app
+        <!-- my-first-nuxt-app -->
+        Hello, world
       </h1>
       <h2 class="subtitle">
         my-first-nuxt-app
