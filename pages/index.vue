@@ -5,16 +5,16 @@
       <ul>
         <li v-for="item in items" :key="item.id">
           <h4>
-            <span>{{item.title}} </span>
+            <span>{{ item.title }} </span>
             <small>
               <span>by </span>
-              <nuxt-link :to="`/users/${item.user.id}`">
-                {{item.user.id}}
+              <nuxt-link :to="`/users/${ item.user.id }`">
+                {{ item.user.id }}
               </nuxt-link>
             </small>
           </h4>
-          <div>{{item.body.slice(0, 130)}}……</div>
-          <p><a target="_blank" :href="item.url">{{item.url}}</a></p>
+          <div>{{ item.body.slice(0, 130) }}……</div>
+          <p><a target="_blank" :href="item.url">{{ item.url }}</a></p>
         </li>
       </ul>
     </div>
